@@ -1,0 +1,28 @@
+.input__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input__field input,
+.input__field textarea {
+  width: 100%;
+  border-radius: 8px;
+  background-color: transparent;
+  padding: 0.7rem 1rem;
+  box-sizing: border-box;
+  border: 1px solid #00000020;
+
+  font-size: 1em;
+  font-weight: inherit;
+}
+
+.input__field textarea {
+  height: 16rem;
+  max-height: 25rem;
+  resize: vertical;
+}
+
+.submit__field {
+  align-items: center;
+}
