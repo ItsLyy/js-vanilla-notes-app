@@ -26,3 +26,19 @@
 .submit__field {
   align-items: center;
 }
+
+.btn__primary {
+  padding: 0.7rem 1rem;
+  font-size: 0.9em;
+  background: linear-gradient(
+    to top right,
+    var(--first-color),
+    var(--second-color)
+  );
+
+  color: #fff;
+
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}

@@ -4,33 +4,69 @@
   padding: 6rem 0;
 }
 
-#notes nav ul {
-  display: flex;
-  gap: 1rem;
-  list-style: none;
-
-  border-bottom: 1px solid #00000020;
+#notes nav {
+  margin-bottom: 1rem;
 }
 
-#notes nav ul li button {
-  padding: 0.7rem 1rem;
+#notes nav .group__button {
+  display: flex;
+  list-style: none;
+  width: fit-content;
+  border-radius: 8px;
+  overflow: hidden;
+
+  border: 1px solid #00000020;
+}
+
+#notes nav .group__button button {
+  padding: 0.7rem 0.8rem;
   background-color: transparent;
   border: none;
   font-size: 1em;
   cursor: pointer;
 }
 
+#notes nav .group__button button.active {
+  background: linear-gradient(
+    to top right,
+    var(--first-color),
+    var(--second-color)
+  );
+  color: #fff;
+}
+
+#notes nav .group__button button svg {
+  height: 1.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #notes .notes__wrapper {
   gap: 1rem;
-  padding: 1rem;
 }
 
 #notes .notes__wrapper .notes__group {
   flex: 1;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr;
   gap: 0.5rem;
+}
+
+#notes .error__container {
+  width: 100%;
+  height: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#notes .error__container span {
+  color: #00000020;
+  font-size: 3em;
+  font-weight: 700;
 }
 
 /* Card */
@@ -43,11 +79,12 @@
   box-sizing: border-box;
   border-radius: 8px;
   height: 100%;
+  overflow: hidden;
 }
 
 .notes__information {
   padding: 0.5rem;
-  background-color: #d1d1d1;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
 }
@@ -66,6 +103,12 @@
   box-sizing: border-box;
   height: 100%;
   flex-grow: 1;
+  color: #fff;
+  background: linear-gradient(
+    to top right,
+    var(--first-color),
+    var(--second-color)
+  );
 }
 
 .notes__body {
@@ -93,6 +136,13 @@
   margin-bottom: 1rem;
 }
 
+.notes__detail header span {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.95em;
+  opacity: 60%;
+}
+
 .notes-detail__title {
   font-size: 2em;
 }
@@ -101,4 +151,16 @@
   margin-top: 3rem;
   display: flex;
   justify-content: end;
+}
+
+@media screen and (max-width: 1200px) {
+  #notes .notes__wrapper .notes__group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #notes .notes__wrapper .notes__group {
+    grid-template-columns: 1fr;
+  }
 }

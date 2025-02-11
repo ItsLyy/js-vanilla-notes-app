@@ -19,7 +19,12 @@ class Modal extends HTMLElement {
 
     document.addEventListener("modal", (e) => {
       modalContainer.innerHTML = "";
-      this._state = !this._state;
+      if (e.detail.state) {
+        this._state = e.detail.state;
+      } else {
+        this._state = !this._state;
+      }
+
       const modal = e.detail.modal;
       if (modal === "add-notes" && this._state) {
         const content = document.createElement("modal-add-notes");

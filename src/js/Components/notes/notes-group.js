@@ -1,8 +1,6 @@
 class NotesGroup extends HTMLElement {
   constructor() {
     super();
-
-    this._notes = [];
   }
 
   connectedCallback() {
@@ -15,21 +13,41 @@ class NotesGroup extends HTMLElement {
   }
 
   render() {
-    this.innerHTML = `
-      <div class="notes__group">
-        
-      </div>
-    `;
+    if (this._notes) {
+      if (this._notes.length > 0) {
+        this.innerHTML = `
+          <div class="notes__group">
+            
+          </div>
+        `;
 
-    this._container = this.querySelector(".notes__group");
+        this._container = this.querySelector(".notes__group");
 
-    this._noteItems = this._notes.map((note) => {
-      this._notesElement = document.createElement("notes-item");
-      this._notesElement.setNote(note);
-      return this._notesElement;
-    });
+        this._noteItems = this._notes.map((note) => {
+          this._notesElement = document.createElement("notes-item");
+          this._notesElement.setNote(note);
+          return this._notesElement;
+        });
 
-    this._container.append(...this._noteItems);
+        this._container.append(...this._noteItems);
+      } else {
+        this.innerHTML = `
+          <div class="error__container">
+            <span>
+              There are no notes
+            </span>
+          </div>
+        `;
+      }
+    } else {
+      this.innerHTML = `
+        <div class="error__container">
+          <span>
+            Loading
+          </span>
+        </div>
+      `;
+    }
   }
 }
 

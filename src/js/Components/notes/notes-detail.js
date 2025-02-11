@@ -6,7 +6,7 @@ class NotesDetail extends HTMLElement {
       title: "Empty Title",
       body: "Empty Description",
       createdAt: new Date().toISOString(),
-      archieved: false,
+      archived: false,
     };
   }
 
@@ -18,7 +18,7 @@ class NotesDetail extends HTMLElement {
     this._notes["id"] = value.id;
     this._notes["title"] = value.title;
     this._notes["body"] = value.body;
-    this._notes["archieved"] = value.archieved;
+    this._notes["archived"] = value.archived;
 
     this.render();
   }
@@ -41,11 +41,19 @@ class NotesDetail extends HTMLElement {
     `;
 
     this._archieveButton = this.querySelector(".archieve");
-    this._isState = false;
+    this._isState = this._notes.archived;
+    this._archieveButton.setFill(this._isState ? "filled" : "");
 
     this._archieveButton.addEventListener("click", () => {
       this._isState = !this._isState;
       this._archieveButton.setFill(this._isState ? "filled" : "");
+      const eventArchieve = new CustomEvent("archieve-notes", {
+        detail: {
+          id: this.getAttribute("notes-id"),
+          value: this._isState,
+        },
+      });
+      document.dispatchEvent(eventArchieve);
     });
 
     this._archieveIcon = `
