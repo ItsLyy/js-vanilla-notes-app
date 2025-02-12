@@ -1,3 +1,5 @@
+import "./notes-item.js";
+
 class NotesGroup extends HTMLElement {
   constructor() {
     super();

@@ -1,3 +1,5 @@
+import "../notes/notes-detail.js";
+import "./modal-wrapper.js";
 class ModalDetailNote extends HTMLElement {
   constructor() {
     super();

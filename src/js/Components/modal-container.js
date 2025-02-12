@@ -1,3 +1,6 @@
+import "./modals/modal-add-notes.js";
+import "./modals/modal-detail-notes.js";
+
 class Modal extends HTMLElement {
   constructor() {
     super();

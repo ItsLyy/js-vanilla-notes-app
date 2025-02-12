@@ -40,11 +40,8 @@ class NotesAdd extends HTMLElement {
       const eventSubmit = new CustomEvent("add-notes", {
         detail: {
           notes: {
-            id: id.toString(),
             title: titleInput.value,
             body: bodyInput.value,
-            createdAt: new Date().toISOString(),
-            archived: false,
           },
         },
       });

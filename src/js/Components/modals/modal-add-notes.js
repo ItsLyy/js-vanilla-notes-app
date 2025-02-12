@@ -1,3 +1,6 @@
+import "../notes/notes-add.js";
+import "./modal-wrapper.js";
+
 class ModalAddNote extends HTMLElement {
   constructor() {
     super();
