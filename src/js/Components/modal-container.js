@@ -1,3 +1,4 @@
+import { animate } from "motion";
 import "./modals/modal-add-notes.js";
 import "./modals/modal-detail-notes.js";
 
@@ -37,6 +38,8 @@ class Modal extends HTMLElement {
         content.setNotes(e.detail.notes);
         modalContainer.append(content);
       }
+      if (this.querySelector(".modal__wrapper"))
+        animate(".modal__wrapper", { opacity: 1, y: [50, 0] });
     });
   }
 }

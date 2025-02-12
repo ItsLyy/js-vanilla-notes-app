@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 class NotesItem extends HTMLElement {
   constructor() {
     super();
@@ -43,15 +45,29 @@ class NotesItem extends HTMLElement {
     this._archieveButton.setFill(this._isState ? "filled" : "");
 
     this._archieveButton.addEventListener("click", () => {
-      this._isState = !this._isState;
+      Swal.fire({
+        title: "Are you sure?",
+        text: `Are you want to ${this._isState ? "unarchive" : "archive"} ${
+          this._notes.title
+        }`,
+        icon: "question",
+        showDenyButton: true,
+        showConfirmButton: true,
+        denyButtonText: "No",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this._isState = !this._isState;
 
-      const eventArchieve = new CustomEvent("archieve-notes", {
-        detail: {
-          id: this.getAttribute("notes-id"),
-          value: this._isState,
-        },
+          const eventArchieve = new CustomEvent("archieve-notes", {
+            detail: {
+              id: this.getAttribute("notes-id"),
+              value: this._isState,
+            },
+          });
+          document.dispatchEvent(eventArchieve);
+        }
       });
-      document.dispatchEvent(eventArchieve);
     });
 
     this._seeMoreButton.addEventListener("click", () => {

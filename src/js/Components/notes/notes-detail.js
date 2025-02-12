@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 class NotesDetail extends HTMLElement {
   constructor() {
     super();
@@ -34,6 +36,7 @@ class NotesDetail extends HTMLElement {
         <div class="content__container">
           <p class="notes-detail__body">${this._notes.body}</p>
           <div class="notes-detail__action">
+            <button class="button__delete">Delete</button>
             <button-secondary class="archieve"></button-secondary>
           </div>
         </div>
@@ -41,19 +44,63 @@ class NotesDetail extends HTMLElement {
     `;
 
     this._archieveButton = this.querySelector(".archieve");
+    this._deleteButton = this.querySelector(".button__delete");
     this._isState = this._notes.archived;
     this._archieveButton.setFill(this._isState ? "filled" : "");
 
     this._archieveButton.addEventListener("click", () => {
-      this._isState = !this._isState;
-      this._archieveButton.setFill(this._isState ? "filled" : "");
-      const eventArchieve = new CustomEvent("archieve-notes", {
-        detail: {
-          id: this.getAttribute("notes-id"),
-          value: this._isState,
-        },
+      Swal.fire({
+        title: "Are you sure?",
+        text: `Are you want to ${this._isState ? "unarchive" : "archive"} ${
+          this._notes.title
+        }`,
+        icon: "question",
+        showDenyButton: true,
+        showConfirmButton: true,
+        denyButtonText: "No",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this._isState = !this._isState;
+          this._archieveButton.setFill(this._isState ? "filled" : "");
+          const eventArchieve = new CustomEvent("archieve-notes", {
+            detail: {
+              id: this.getAttribute("notes-id"),
+              value: this._isState,
+            },
+          });
+          document.dispatchEvent(eventArchieve);
+        }
       });
-      document.dispatchEvent(eventArchieve);
+    });
+
+    this._deleteButton.addEventListener("click", () => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: `Are you want to delete ${this._notes.title}`,
+        icon: "warning",
+        showDenyButton: true,
+        showConfirmButton: true,
+        denyButtonText: "No",
+        confirmButtonText: "Yes",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const event = new CustomEvent("delete-notes", {
+            detail: {
+              id: this._notes.id,
+            },
+          });
+
+          const eventCloseModal = new CustomEvent("modal", {
+            detail: {
+              state: false,
+            },
+          });
+
+          document.dispatchEvent(event);
+          document.dispatchEvent(eventCloseModal);
+        }
+      });
     });
 
     this._archieveIcon = `

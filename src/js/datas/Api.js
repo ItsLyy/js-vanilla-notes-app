@@ -7,7 +7,7 @@ class Api {
       const datas = await res.json();
       return datas.data;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 
@@ -17,7 +17,7 @@ class Api {
       const datas = await res.json();
       return datas.data;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 
@@ -33,7 +33,6 @@ class Api {
 
   storeNotes = async (notes) => {
     try {
-      console.log(notes);
       const res = await fetch(`${BASE_URL}/notes`, {
         body: JSON.stringify({ title: notes.title, body: notes.body }),
         method: "POST",
@@ -78,7 +77,7 @@ class Api {
         method: "DELETE",
       });
       const datas = await res.json();
-      return datas.data;
+      return datas;
     } catch (error) {
       return error;
     }

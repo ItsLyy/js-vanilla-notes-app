@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 class NotesAdd extends HTMLElement {
   constructor() {
     super();
@@ -36,23 +38,34 @@ class NotesAdd extends HTMLElement {
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const id = +new Date();
-      const eventSubmit = new CustomEvent("add-notes", {
-        detail: {
-          notes: {
-            title: titleInput.value,
-            body: bodyInput.value,
-          },
-        },
-      });
-      const eventCloseModal = new CustomEvent("modal", {
-        detail: {
-          state: false,
-        },
-      });
+      Swal.fire({
+        icon: "question",
+        title: "Are you sure?",
+        text: "Are you sure want to create this notes?",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const eventSubmit = new CustomEvent("add-notes", {
+            detail: {
+              notes: {
+                title: titleInput.value,
+                body: bodyInput.value,
+              },
+            },
+          });
+          const eventCloseModal = new CustomEvent("modal", {
+            detail: {
+              state: false,
+            },
+          });
 
-      document.dispatchEvent(eventSubmit);
-      document.dispatchEvent(eventCloseModal);
+          document.dispatchEvent(eventSubmit);
+          document.dispatchEvent(eventCloseModal);
+        }
+      });
     });
   }
 
@@ -71,7 +84,7 @@ class NotesAdd extends HTMLElement {
 
     if (event.target.validity.patternMismatch) {
       event.target.setCustomValidity(
-        "Tidak boleh diawali dengan simbol, mengandung white space atau spasi, dan mengandung karakter spesial seperti dolar ($)."
+        "Tidak boleh diawali dengan simbol, mengandung white space atau spasi, dan mengandung karakter spesial seperti dolar ($).",
       );
       return;
     }

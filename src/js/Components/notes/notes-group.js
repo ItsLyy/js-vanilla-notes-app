@@ -1,5 +1,7 @@
 import "./notes-item.js";
 
+import { animate, stagger } from "motion";
+
 class NotesGroup extends HTMLElement {
   constructor() {
     super();
@@ -32,6 +34,12 @@ class NotesGroup extends HTMLElement {
         });
 
         this._container.append(...this._noteItems);
+
+        animate(
+          "notes-item",
+          { opacity: 1, y: [50, 0] },
+          { delay: stagger(0.05) },
+        );
       } else {
         this.innerHTML = `
           <div class="error__container">

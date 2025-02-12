@@ -66,6 +66,7 @@
 #notes .error__container span {
   color: #00000020;
   font-size: 3em;
+  text-align: center;
   font-weight: 700;
 }
 
@@ -150,7 +151,7 @@
 .notes-detail__action {
   margin-top: 3rem;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
 }
 
 @media screen and (max-width: 1200px) {

@@ -42,3 +42,12 @@
   border: none;
   cursor: pointer;
 }
+
+.button__delete {
+  background-color: red;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  border: none;
+  cursor: pointer;
+}

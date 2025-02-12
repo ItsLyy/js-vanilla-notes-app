@@ -7,6 +7,7 @@ import "./Components/navbar.js";
 import Api from "./datas/Api.js";
 
 import "../css/index.css";
+import Swal from "sweetalert2";
 
 document.addEventListener("DOMContentLoaded", async () => {
   let filterNotes = "all";
@@ -15,16 +16,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.addEventListener("add-notes", async (e) => {
     const newNotes = e.detail.notes;
-    storeNotesHandler(newNotes);
+
+    await storeNotesHandler(newNotes);
     renderAllNotes(filterNotes);
   });
 
-  document.addEventListener("archieve-notes", (e) => {
+  document.addEventListener("archieve-notes", async (e) => {
     const id = e.detail.id;
     const value = e.detail.value;
 
-    archiveNotesHandler(id, value);
-
+    await archiveNotesHandler(id, value);
     renderAllNotes(filterNotes);
   });
 
@@ -33,10 +34,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     filterNotes = filter;
     renderAllNotes(filterNotes);
   });
+
+  document.addEventListener("delete-notes", async (e) => {
+    const id = e.detail.id;
+    await deleteNotesHandler(id);
+    renderAllNotes(filterNotes);
+  });
 });
 
 const renderAllNotes = async (filter) => {
   const notesGroup = document.querySelector("notes-group");
+  notesGroup.setNotes(null);
   const api = new Api();
 
   if (filter === "all") {
@@ -50,7 +58,11 @@ const storeNotesHandler = async (notes) => {
   const api = new Api();
   const res = await api.storeNotes(notes);
 
-  console.log(res);
+  if (res.status === "success") {
+    alertSuccess("Notes Created", res.message);
+  } else if (res.status === "fail") {
+    alertError("Notes Issue", res.message);
+  }
 };
 
 const archiveNotesHandler = async (id, value) => {
@@ -61,4 +73,35 @@ const archiveNotesHandler = async (id, value) => {
   } else {
     res = await api.unArchieveNotes(id);
   }
+
+  if (res.status === "fail") {
+    alertError("Notes Issue", res.message);
+  }
+};
+
+const deleteNotesHandler = async (id) => {
+  const api = new Api();
+  const res = await api.deleteNoteById(id);
+
+  if (res.status === "success") {
+    alertSuccess("Notes Deleted", res.message);
+  } else if (res.status === "fail") {
+    alertError("Notes Issue", res.message);
+  }
+};
+
+const alertSuccess = (title, text) => {
+  Swal.fire({
+    title,
+    text,
+    icon: "success",
+  });
+};
+
+const alertError = (title, text) => {
+  Swal.fire({
+    title,
+    text,
+    icon: "error",
+  });
 };
